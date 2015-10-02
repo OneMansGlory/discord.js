@@ -5,6 +5,7 @@
 */
 
 var Discord = require("../");
+var client = require('google-images')
 
 // Get the email and password
 var AuthDetails = require("./auth.json");
@@ -22,13 +23,21 @@ bot.on("disconnected", function () {
 	
 });
 
+Array.prototype.chooseRandom = function() {
+  return this[Math.floor(Math.random() * this.length)];
+};
+
 bot.on("message", function (msg) {
   var content = msg.content
 	if (content.substring(0, 9) === "image me ") {
-    var query = content.substring(9)
-		
-		bot.sendMessage(msg.channel, "pong!");
-    bot
+    var query = content.substring(9);
+    client.search(query, function(err, images) {
+      if (images.length > 0) {
+        bot.sendMessage(msg.channel, images.chooseRandom().unescapedUrl);
+      } else {
+        bot.sendMessage(msg.channel, "no images for" + query);
+      }
+    })
 	}
 });
 
