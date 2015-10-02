@@ -5,6 +5,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "node ./test/bot.js"
+    "start": "node examples/pingpong.js"
   },
   "repository": {
     "type": "git",
