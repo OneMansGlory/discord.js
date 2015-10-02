@@ -31,12 +31,16 @@ bot.on("message", function (msg) {
   var content = msg.content
 	if (content.substring(0, 9) === "image me ") {
     var query = content.substring(9);
+    console.log("received: " + query)
     client.search(query, function(err, images) {
+      var response = ""
       if (images.length > 0) {
-        bot.sendMessage(msg.channel, images.chooseRandom().unescapedUrl);
+        response = images.chooseRandom().unescapedUrl
       } else {
-        bot.sendMessage(msg.channel, "no images for" + query);
+        response = "no images for" + query
       }
+      console.log("response: " + response)
+      bot.sendMessage(msg, response);
     })
 	}
 });
