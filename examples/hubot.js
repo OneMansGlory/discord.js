@@ -43,6 +43,11 @@ bot.on("message", function (msg) {
       bot.sendMessage(msg, response);
     })
 	}
+
+  if (content.substring(0, 6) === "gg me ") {
+    var response = "http://champion.gg/champion/" + content.substring(6);
+    bot.sendMessage(msg, response)
+  }
 });
 
 bot.login(AuthDetails.email, AuthDetails.password);
