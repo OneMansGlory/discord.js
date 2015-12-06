@@ -77,12 +77,25 @@ export default class InternalClient {
 		this.channels = new Cache();
 		this.servers = new Cache();
 		this.private_channels = new Cache();
-		this.typingIntervals = [];
+
+		this.intervals = {
+			typing : [],
+			kai : null,
+			misc : []
+		};
+
 		this.voiceConnection = null;
 		this.resolver = new Resolver(this);
 		this.readyTime = null;
-
 		this.messageAwaits = {};
+	}
+
+	cleanIntervals(){
+		for(let interval of this.intervals.typing.concat(this.intervals.misc).concat(this.intervals.kai)){
+			if(interval){
+				clearInterval(interval);
+			}
+		}
 	}
 
 	get uptime() {
@@ -832,12 +845,12 @@ export default class InternalClient {
 		return this.resolver.resolveChannel(channel)
 		.then(channel => {
 
-			if(this.typingIntervals[channel.id]){
+			if(this.intervals.typing[channel.id]){
 				// typing interval already exists, leave it alone
 				throw new Error("Already typing in that channel");
 			}
 
-			this.typingIntervals[channel.id] = setInterval(
+			this.intervals.typing[channel.id] = setInterval(
 				() => this.sendTyping(channel)
 				.catch(error => this.emit("error", error)),
 				4000
@@ -853,13 +866,13 @@ export default class InternalClient {
 		return this.resolver.resolveChannel(channel)
 		.then(channel => {
 
-			if(!this.typingIntervals[channel.id]){
+			if(!this.intervals.typing[channel.id]){
 				// typing interval doesn't exist
 				throw new Error("Not typing in that channel");
 			}
 
-			clearInterval(this.typingIntervals[channel.id]);
-			this.typingIntervals[channel.id] = false;
+			clearInterval(this.intervals.typing[channel.id]);
+			this.intervals.typing[channel.id] = false;
 
 		});
 	}
@@ -1018,6 +1031,7 @@ export default class InternalClient {
 			self.websocket = null;
 			self.state = ConnectionState.DISCONNECTED;
 			client.emit("disconnected");
+			self.cleanIntervals();
 		};
 
 		this.websocket.onerror = e => {
@@ -1053,7 +1067,7 @@ export default class InternalClient {
 					});
 					self.state = ConnectionState.READY;
 
-					setInterval(() => self.sendWS({ op: 1, d: Date.now() }), data.heartbeat_interval);
+					self.intervals.kai = setInterval(() => self.sendWS({ op: 1, d: Date.now() }), data.heartbeat_interval);
 
 					client.emit("ready");
 					client.emit("debug", `ready packet took ${Date.now() - startTime}ms to process`);
