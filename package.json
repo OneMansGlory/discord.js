@@ -29,7 +29,7 @@
     "fs-extra": "^0.26.2",
     "superagent": "^1.5.0",
     "ws": "^0.8.1",
-    "google-images": "^0.1.0"
+    "node-bing-api": "^2.3.0"
   },
   "devDependencies": {
     "colors": "^1.1.2",
