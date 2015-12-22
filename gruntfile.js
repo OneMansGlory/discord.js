@@ -6,11 +6,15 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON("package.json"),
         // define source files and their destinations
         babel: {
+            options: {
+                loose: "all",
+                compact: !grunt.option('dev')
+            },
             dist: {
                 files: [{
                     expand: true,
                     cwd: "src/",
-                    src: ["**.*"],
+                    src: ["**/**.*"],
                     dest: "lib/",
                     ext: ".js"
                 }]
@@ -44,5 +48,6 @@ module.exports = function (grunt) {
     // register at least this one task
     grunt.registerTask('default', ['babel']);
     grunt.registerTask('web', ['browserify', "uglify"]);
+    grunt.registerTask("dist", ["babel", "browserify", "uglify"])
 
 };

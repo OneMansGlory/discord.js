@@ -1,9 +1,13 @@
 .. include:: ./vars.rst
 
-Server Documentation
-==================
+Server
+======
 
-The Server Class is used to represent data about a server.
+**extends** Equality_
+
+Stores information about a Discord Server.
+
+--------
 
 Attributes
 ----------
@@ -11,97 +15,181 @@ Attributes
 client
 ~~~~~~
 
-The Discord Client_ that the Server was cached by.
+The Client_ that cached the Server.
 
 region
 ~~~~~~
 
-The region that the server is in, a `String`.
+`String`, region of the server.
 
 name
 ~~~~
 
-The server's name, as a `String`.
+`String`, name of the server.
 
 id
 ~~
 
-The server's id, as a `String`.
+`String`, ID of the server - never changes.
 
 members
 ~~~~~~~
 
-**Aliases** : `users`
-
-The members in a server, an `Array` of User_ objects.
+Members of the server, a Cache_ of User_ objects.
 
 channels
 ~~~~~~~~
 
-The channels in a server, an `Array` of Channel_ objects.
+Channels in the server, a Cache_ of ServerChannel_ objects.
+
+roles
+~~~~~
+
+Roles of the server, a Cache_ of Role_ objects.
 
 icon
 ~~~~
 
-The icon ID of the server if it has one as a `String`, otherwise it is `null`.
-
-iconURL
-~~~~~~~
-
-A `String` that is the URL of the server icon if it has one, otherwise it is `null`.
+ID/Hash of server icon, use ``server.iconURL`` for an URL to the icon.
 
 afkTimeout
 ~~~~~~~~~~
 
-A `Number` that is the AFK Timeout of the Server.
+`Number`, the AFK timeout in seconds before a user is classed as AFK. If there isn't an AFK timeout, this will be null.
 
 afkChannel
 ~~~~~~~~~~
 
-A Channel_ that represents the AFK Channel of the server if it has one, otherwise it is `null`.
+The channel where AFK users are moved to, ServerChannel_ object. If one isn't set, this will be null.
 
 defaultChannel
 ~~~~~~~~~~~~~~
 
-The **#general** Channel_ of the server.
+**Aliases** `generalChannel, general`
+
+The ``#general`` ServerChannel_ of the server.
 
 owner
 ~~~~~
 
-A User_ object representing the user that owns the server.
+The founder of the server, a User_ object.
 
------
+iconURL
+~~~~~~~
+
+The URL of the Server's icon. If the server doesn't have an icon, this will be null.
 
 Functions
 ---------
 
-.. note:: When concatenated with a String, the object will become the server's name, e.g. ``"this is " + server`` would be ``this is Discord API`` if the server was called `Discord API`.
+rolesOfUser(user)
+~~~~~~~~~~~~~~~~~
 
-getChannel(key, value)
-~~~~~~~~~~~~~~~~~~~~~~
+**Aliases**: `rolesOf`
 
-Gets a Channel_ that matches the specified criteria. E.g:
+Returns an array of the roles affecting a user server-wide.
 
-.. code-block:: js
+------
 
-    server.getChannel("id", 1243987349) // returns a Channel where channel.id === 1243987349
-    
-- **key** - a `String` that is the key
-- **value** - a `String` that is the value
+detailsOfUser(user)
+~~~~~~~~~~~~~~~~~~~
 
-getMember(key, value)
-~~~~~~~~~~~~~~~~~~~~~
+**Aliases** `detailsOf`
 
-Gets a User_ that matches the specified criteria. E.g:
+Returns an object containing metadata of a user within the server, containing a structure similar to the following:
 
 .. code-block:: js
 
-    bot.getUser("id", 1243987349) // returns a user where user.id === 1243987349
-    
-- **key** - a `String` that is the key
-- **value** - a `String` that is the value
+	{
+		joinedAt : 1449339323747,
+		mute : false,
+		deaf : false
+	}
 
-equals(object)
-~~~~~~~~~~~~~~
+----------
 
-Returns a `Boolean` depending on whether the Server's ID (``server.id``) equals the object's ID (``object.id``). You should **always**, always use this if you want to compare servers. **NEVER** do ``server1 == server2``.
+leave()
+~~~~~~~
+
+| **Shortcut of** ``client.leaveServer(server)``
+| **Aliases** `delete`
+| **See** client.leaveServer_
+
+------
+
+|
+
+createInvite(`options`, `callback`)
+~~~~~~~
+
+| **Shortcut of** ``client.createInvite(server, options, callback)``
+| **See** client.createInvite_
+|
+
+------
+
+createRole(`data`, `callback`)
+~~~~~~~
+
+| **Shortcut of** ``client.createRole(server, data, callback)``
+| **See** client.createRole_
+|
+
+------
+
+createChannel(name, `type`, `callback`)
+~~~~~~~
+
+| **Shortcut of** ``client.createChannel(server, name, type, callback)``
+| **See** client.createChannel_
+|
+
+------
+
+getBans(`callback`)
+~~~~~~~~~~~~~~~~~~~
+
+| **Shortcut of** ``client.getBans(server, callback)``
+| **See** client.getBans_
+|
+
+------
+
+banMember(user, `length`, `callback`)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| **Shortcut of** ``client.banMember(member, server, length, callback)``
+| **Aliases** `banUser, ban`
+| **See** client.banMember_
+|
+
+------
+
+unbanMember(user, `callback`)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| **Shortcut of** ``client.unbanMember(member, server, callback)``
+| **Aliases** `unbanUser, unban`
+| **See** client.unbanMember_
+|
+
+------
+
+kickMember(user, `callback`)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| **Shortcut of** ``client.kickMember(member, server, callback)``
+| **Aliases** `kickUser, kick`
+| **See** client.kickMember_
+|
+
+------
+
+.. _client.leaveServer : ./docs_client.html#leaveserver-server-callback
+.. _client.createInvite : ./docs_client.html#createinvite-channel-options-callback
+.. _client.createRole : ./docs_client.html#createrole-server-data-callback
+.. _client.createChannel : ./docs_client.html#createchannel-server-name-type-callback
+.. _client.banMember : ./docs_client.html#banmember-user-server-length-callback
+.. _client.unbanMember : ./docs_client.html#unbanmember-user-server-callback
+.. _client.kickMember : ./docs_client.html#kickmember-user-server-callback
+.. _client.getBans : ./docs_client.html#getbans-server-callback

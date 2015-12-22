@@ -5,32 +5,41 @@
 </p>
 
 [![Build Status](https://travis-ci.org/hydrabolt/discord.js.svg)](https://travis-ci.org/hydrabolt/discord.js) [![Documentation Status](https://readthedocs.org/projects/discordjs/badge/?version=latest)](http://discordjs.readthedocs.org/en/latest/?badge=latest)
+
+[![NPM](https://nodei.co/npm/discord.js.png?downloads=true&stars=true)](https://nodei.co/npm/discord.js/)
     
 
-discord.js is a node module used as a way of interfacing with
-[Discord](https://discordapp.com/). It is a very useful module for creating
-bots.
+discord.js is a node module used as a way of interfacing with [Discord](https://discordapp.com/). It is a very useful module for creating bots.
 
 ### Installation
+
+**Requires node 0.12+**
+
 `npm install --save discord.js`
 
 ---
 
-### Example
+### Example: ping-pong
 ```js
 var Discord = require("discord.js");
 
 var mybot = new Discord.Client();
 
 mybot.on("message", function(message){
-	
 	if(message.content === "ping")
 		mybot.reply(message, "pong");
-	
 });
 
 mybot.login("email", "password");
 ```
+---
+
+### Contributing
+
+Feel free to contribute! Just clone the repo and edit the files in the **src folder, not the lib folder.** 
+
+Whenever you come to making a pull request, make sure it's to the *indev* branch and that you have built the lib files by running `grunt --dev`
+
 ---
 
 ### Related Projects
@@ -39,12 +48,16 @@ Here is a list of other Discord APIs:
 
 #### Java:
 [Discord4J](https://github.com/nerd/Discord4J)
+
 #### .NET:
 [Discord.Net](https://github.com/RogueException/Discord.Net)
 
 [DiscordSharp](https://github.com/Luigifan/DiscordSharp)
+
 #### NodeJS
 [discord.io](https://github.com/izy521/node-discord) (similar to discord.js but lower level)
+
+[discordie](https://github.com/qeled/discordie)
 
 #### PHP
 [DiscordPHP](https://github.com/teamreflex/DiscordPHP)
@@ -66,7 +79,7 @@ Here is a list of other Discord APIs:
 
 **[Website](http://discord-js.github.io/)**
 
-**[NPM](npmjs.com/package/discord.js)**
+**[NPM](http://npmjs.com/package/discord.js)**
 
 ---
 
@@ -76,4 +89,5 @@ If you have an issue or want to know if a feature exists, [read the documentatio
 
 
 If you would like to contact me, you can create an issue on the GitHub repo, e-mail me via the one available on my NPM profile.
-Or you could just send a DM to **hydrabolt** in [**Discord API**](https://discord.gg/0SBTUU1wZTYd2XyW).
+
+Alternatively, you could just send a DM to **hydrabolt** in [**Discord API**](https://discord.gg/0SBTUU1wZTYd2XyW).
