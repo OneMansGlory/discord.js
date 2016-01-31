@@ -1,7 +1,7 @@
 var Discord = require("../");
 var client = require('google-images')
 
-var Bing = require('node-bing-api')({accKey: "YaKuygAMWGb+i1kcLewlrJiMluePvD11iPncscIlnx4"});
+var Bing = require('node-bing-api')({accKey: "your bing apikey here"});
 // Get the email and password
 var AuthDetails = require("./auth.json");
 
